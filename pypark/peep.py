@@ -5,16 +5,16 @@ from constants import BLUE
 class Peep(object):
     def __init__(self):
         self.Vector2d = None
-        self.tileCoords = None
+        self.tile_coords = None
 
-    def draw(self, screen, viewableRange, camera):
+    def draw(self, screen, viewable_range, camera):
         if not self.Vector2d:
-            if self.tileCoords:
-                self.Vector2d = Vector2d(self.tileCoords.x*camera.tileSize, self.tileCoords.y*camera.tileSize)
+            if self.tile_coords:
+                self.Vector2d = Vector2d(self.tile_coords.x*camera.tile_size, self.tile_coords.y*camera.tile_size)
             else:
-                self.Vector2d = Vector2d(320*camera.tileSize, 240*camera.tileSize)
+                self.Vector2d = Vector2d(320*camera.tile_size, 240*camera.tile_size)
 
-        if self.tileCoords and \
-           self.tileCoords.x in range(viewableRange.left, viewableRange.right) and \
-           self.tileCoords.y in range(viewableRange.top, viewableRange.bottom):
+        if self.tile_coords and \
+           self.tile_coords.x in range(viewable_range.left, viewable_range.right) and \
+           self.tile_coords.y in range(viewable_range.top, viewable_range.bottom):
             pygame.draw.circle(screen, BLUE, (self.Vector2d.x+10, self.Vector2d.y+10), 5, 0)

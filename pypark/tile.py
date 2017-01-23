@@ -6,29 +6,29 @@ TILE_SIZE = 20
 class Tile(object):
     def __init__(self):
         self.colour = GRASS_COLOUR
-        self.isPath = False
+        self.is_path = False
         self.H = None
 
     def clicked(self):
         self.change()
 
     def change(self):
-        if self.isPath:
-            self.makeGrass()
+        if self.is_path:
+            self.make_grass()
         else:
-            self.makePath()
+            self.make_path()
 
-    def makePath(self):
-        self.isPath = True
+    def make_path(self):
+        self.is_path = True
         self.colour = PATH_COLOUR
 
-    def makeGrass(self):
-        self.isPath = False
+    def make_grass(self):
+        self.is_path = False
         #self.colour = GRASS_COLOUR
         self.colour = (150, 240, 150)
 
-    def draw(self, tileSize, x, y, screen):
-        r = pygame.Rect(x, y, tileSize, tileSize)
+    def draw(self, tile_size, x, y, screen):
+        r = pygame.Rect(x, y, tile_size, tile_size)
         if self.colour:
             r = screen.fill(self.colour, r)
         pygame.draw.rect(screen, BORDER_COLOUR, r, 1)
