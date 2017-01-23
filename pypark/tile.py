@@ -3,6 +3,7 @@ from constants import GRASS_COLOUR, BORDER_COLOUR, PATH_COLOUR
 
 TILE_SIZE = 20
 
+
 class Tile(object):
     def __init__(self):
         self.colour = GRASS_COLOUR
@@ -24,8 +25,7 @@ class Tile(object):
 
     def make_grass(self):
         self.is_path = False
-        #self.colour = GRASS_COLOUR
-        self.colour = (150, 240, 150)
+        self.colour = GRASS_COLOUR
 
     def draw(self, tile_size, x, y, screen):
         r = pygame.Rect(x, y, tile_size, tile_size)

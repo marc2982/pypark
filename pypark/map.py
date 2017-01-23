@@ -7,6 +7,7 @@ STRAIGHT_MOVE_COST = 10
 DIAGONAL_MOVE_COST = 14
 GRASS_MOVE_COST = 20
 
+
 class Map(object):
     def __init__(self):
         # dimensions are in tiles
@@ -135,6 +136,9 @@ class Node:
         self.parent = None
 
     def __str__(self):
-        return "< node: " + str(self.Vector2d) + "; f=%s; g=%s; h=%s" % (self.f, self.g, self.h) + "; parent: " + str(self.parent) + " >"
+        return "< node: " + str(self.Vector2d) + \
+            "; f=%s; g=%s; h=%s" % (self.f, self.g, self.h) + "; parent: " + \
+            str(self.parent) + " >"
+
     def __repr__(self):
         return self.__str__()

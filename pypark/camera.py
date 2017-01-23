@@ -1,11 +1,12 @@
 import pygame
 from vector import Vector2d
 
+
 class Camera(object):
     #TODO: performance: only calculate tile_offset and tile_bounds after camera movement
     def __init__(self, tile_size, w, h):
         self.tile_size = tile_size
-        self.Vector2d = Vector2d(0,0)
+        self.Vector2d = Vector2d(0, 0)
         self.size = Vector2d(w, h)
 
     def move(self, dx, dy):
@@ -24,7 +25,9 @@ class Camera(object):
         self.Vector2d.y = y
 
     def get_tile_offset(self):
-        return Vector2d(self.Vector2d.x % self.tile_size, self.Vector2d.y % self.tile_size)
+        return Vector2d(
+            self.Vector2d.x % self.tile_size,
+            self.Vector2d.y % self.tile_size)
 
     def get_tile_bounds(self):
         x = int(self.Vector2d.x / self.tile_size)

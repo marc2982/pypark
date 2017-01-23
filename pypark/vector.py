@@ -1,6 +1,10 @@
-################## http://www.pygame.org/wiki/2DVectorClass ##################
+"""2D vector class.
+
+Taken from: http://www.pygame.org/wiki/2DVectorClass
+"""
 import operator
 import math
+
 
 class Vector2d(object):
     """2d vector class, supports vector and scalar operators,
