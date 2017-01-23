@@ -10,13 +10,11 @@ TILE_SIZE = 10
 def run():
     pygame.init()
 
-    black = 0, 0, 0
-
-    screen = pygame.display.set_mode((640, 480))
+    screen = pygame.display.set_mode((800, 600))
     clock = pygame.time.Clock()
 
     run = True
-    screen.fill(black)
+    screen.fill(BLACK)
     pygame.display.flip()
 
     defaultFont = pygame.font.get_default_font()
@@ -80,7 +78,7 @@ def run():
                     thePeep.Vector2d.y -= TILE_SIZE
                     camera.moveTile(0, 1)
 
-        screen.fill(black)
+        screen.fill(BLACK)
 
         # draw viewable range
         camera.draw(theMap, TILE_SIZE, screen)
