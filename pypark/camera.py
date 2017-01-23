@@ -3,16 +3,18 @@ from vector import Vector2d
 
 
 class Camera(object):
-    #TODO: performance: only calculate tile_offset and tile_bounds after camera movement
+    # TODO: performance:
+    # only calculate tile_offset and tile_bounds after camera movement
+
     def __init__(self, tile_size, w, h):
         self.tile_size = tile_size
         self.Vector2d = Vector2d(0, 0)
         self.size = Vector2d(w, h)
 
     def move(self, dx, dy):
-        #TODO: figure this out
-        #dx = lib.clamp(0, dx, MAP_SIZE * self.tile_size)
-        #dy = lib.clamp(0, dy, MAP_SIZE * self.tile_size)
+        # TODO: figure this out
+        # dx = lib.clamp(0, dx, MAP_SIZE * self.tile_size)
+        # dy = lib.clamp(0, dy, MAP_SIZE * self.tile_size)
 
         self.Vector2d.x += dx
         self.Vector2d.y += dy
@@ -46,21 +48,19 @@ class Camera(object):
     def get_corresponding_tile(self, x, y):
         bounds = self.get_tile_bounds()
         offset = self.get_tile_offset()
-        #return (bounds.left+offset[0])/self.tile_size, (bounds.top+offset[1])/self.tile_size
-        return Vector2d((x+offset.x)/self.tile_size+bounds.left, (y+offset.y)/self.tile_size+bounds.top)
+        return Vector2d(
+            (x + offset.x) / self.tile_size + bounds.left,
+            (y + offset.y) / self.tile_size + bounds.top)
 
     def draw(self, the_map, tile_size, screen):
         x = y = 0
         bounds = self.get_tile_bounds()
         offset = self.get_tile_offset()
 
-        for tile_y in xrange(bounds.top, bounds.bottom):
-            for tile_x in xrange(bounds.left, bounds.right):
+        for y, tile_y in enumerate(xrange(bounds.top, bounds.bottom)):
+            for x, tile_x in enumerate(xrange(bounds.left, bounds.right)):
                 tile = the_map[tile_x][tile_y]
                 tile.draw(tile_size,
                           (x*tile_size) - offset.x,
                           (y*tile_size) - offset.y,
                           screen)
-                x += 1
-            x = 0
-            y += 1
