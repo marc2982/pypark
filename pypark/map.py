@@ -13,8 +13,11 @@ class Map(object):
         # dimensions are in tiles
         self.width = self.height = MAP_SIZE
         self.size = (self.width, self.height)
-        #TODO: performance: convert this to a 1d array (http://www.reddit.com/r/gamedev/comments/jgv2m/performance_of_arrays/)
-        self.tiles = [[Tile() for x in range(self.width)] for y in range(self.height)]
+        # TODO: performance:
+        # convert this to a 1d array
+        # http://www.reddit.com/r/gamedev/comments/jgv2m/performance_of_arrays/
+        self.tiles = [
+            [Tile() for x in range(self.width)] for y in range(self.height)]
 
     def __getitem__(self, key):
         return self.tiles[key]
@@ -32,7 +35,8 @@ class Map(object):
         current_node.g = 0
         current_node.h = self.heuristic_distance_to_goal(start, end)
         current_node.f = current_node.g + current_node.h
-        current_node.parent = current_node.Vector2d  # set parent = starting because it doesn't matter
+        # set parent = starting because it doesn't matter
+        current_node.parent = current_node.Vector2d
 
         open_set.append(current_node)
 
@@ -55,9 +59,10 @@ class Map(object):
 
             for node_position in direction:
                 n = Node()
-                n.Vector2d = Vector2d(node.Vector2d.x + node_position[0], node.Vector2d.y + node_position[1])
+                n.Vector2d = Vector2d(node.Vector2d.x + node_position[0],
+                                      node.Vector2d.y + node_position[1])
 
-                #is the node in bounds and walkable? if not, move to next node
+                # is the node in bounds and walkable? if not, move to next node
                 if not self.get_tile(n.Vector2d).is_path:
                     continue
 
@@ -67,16 +72,17 @@ class Map(object):
                         not self[n.Vector2d.x][n.Vector2d.y+node_position[1]].is_path):
                         continue
 
-                # i is the index in direction, the first 4 are orthogonal, the last 4 are diagonal
-                if node_position in orthogonal:   # straight moves
+                # i is the index in direction
+                # the first 4 are orthogonal, the last 4 are diagonal
+                if node_position in orthogonal:  # straight moves
                     if self[n.Vector2d.x][n.Vector2d.y].is_path:
                         new_g = node.g + STRAIGHT_MOVE_COST
                     else:
                         new_g = node.g + GRASS_MOVE_COST
-                else:   # diagonal moves
+                else:  # diagonal moves
                     new_g = node.g + DIAGONAL_MOVE_COST
 
-                # if the newg is the same as the current one, move to the next node
+                # if newg is the same as the current one, move to the next node
                 if new_g == node.g:
                     continue
 
@@ -87,7 +93,8 @@ class Map(object):
                         in_open_set = a_node
                         break
 
-                # if in the open set and has a lower g score than the new one, move to the next tile
+                # if in the open set and has a lower g score than the new one,
+                # move to the next tile
                 if in_open_set and in_open_set.g <= new_g:
                     continue
 
@@ -98,7 +105,8 @@ class Map(object):
                         in_closed_set = a_node
                         break
 
-                # if in the open set and has a lower g score than the new one, move to the next tile
+                # if in the open set and has a lower g score than the new one,
+                # move to the next tile
                 if in_closed_set and in_closed_set.g <= new_g:
                     continue
 
