@@ -25,6 +25,9 @@ class Map(object):
     def get_tile(self, p):
         return self[p.x][p.y]
 
+    def compute_path(self, start, end, cut_corners=False):
+        return self.a_star(start, end, cut_corners=cut_corners)
+
     def a_star(self, start, end, cut_corners=False):
         open_set = []
         closed_set = []

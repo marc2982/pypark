@@ -64,7 +64,7 @@ def run():
                         mouse_pos[0], mouse_pos[1])
                     the_map[tile_vector2d.x][tile_vector2d.y].clicked()
                 if right_button:
-                    path = the_map.a_star(start_point, end_point)
+                    path = the_map.compute_path(start_point, end_point)
                     for x in path:
                         the_map.get_tile(x).colour = RED
 
