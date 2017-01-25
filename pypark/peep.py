@@ -9,6 +9,9 @@ class Peep(object):
         self.Vector2d = None
         self.tile_coords = None
 
+    def update(self):
+        pass
+
     def draw(self, screen, viewable_range, camera):
         if not self.Vector2d:
             if self.tile_coords:

@@ -59,22 +59,13 @@ class Game(object):
 
         # main loop
         while True:
-            # self.screen.fill(BLACK)
-
-            self.handle_input()
-            self.update()
-            self.draw()
-
-            self.camera.draw(self.world, TILE_SIZE, self.screen)
-
-            self.draw_debug_text(self.mouse_pos, self.x, self.y)
-
-            for peep in self.peeps:
-                peep.draw(self.screen, self.camera.get_tile_bounds(),
-                          self.camera)
-
-            pygame.display.flip()
+            self.tick()
             self.clock.tick(60)
+
+    def tick(self):
+        self.handle_input()
+        self.update()
+        self.draw()
 
     def handle_input(self):
         # maybe use .poll() to get the first and clear the queue?
@@ -118,11 +109,18 @@ class Game(object):
             self.camera.move_tile(0, 1)
 
     def update(self):
-        pass
-
+        for peep in self.peeps:
+            peep.update()
 
     def draw(self):
-        pass
+        self.camera.draw(self.world, TILE_SIZE, self.screen)
+        self.draw_debug_text(self.mouse_pos, self.x, self.y)
+
+        for peep in self.peeps:
+            peep.draw(self.screen, self.camera.get_tile_bounds(),
+                      self.camera)
+
+        pygame.display.flip()
 
     def make_testing_path(self, start_point, end_point):
         self.world.get_tile(start_point).make_path()
