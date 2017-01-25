@@ -1,15 +1,10 @@
 import pygame
 
 from camera import Camera
-from constants import BLACK, RED, WHITE
+from constants import BLACK, RED, WHITE, SCREEN_DIMENSIONS
 from peep import Peep
 from vector import Vector2d
 from world import World
-
-SCREEN_HEIGHT = 800
-SCREEN_WIDTH = 600
-SCREEN_DIMENSIONS = (SCREEN_HEIGHT, SCREEN_WIDTH)
-TILE_SIZE = 20
 
 
 class ExitGame(Exception):

@@ -2,8 +2,6 @@ import pygame
 
 from constants import GRASS_COLOUR, BORDER_COLOUR, PATH_COLOUR
 
-TILE_SIZE = 20
-
 
 class Tile(object):
     def __init__(self):
