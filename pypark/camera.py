@@ -13,8 +13,8 @@ class Camera(object):
 
     def move(self, dx, dy):
         # TODO: figure this out
-        # dx = lib.clamp(0, dx, MAP_SIZE * self.tile_size)
-        # dy = lib.clamp(0, dy, MAP_SIZE * self.tile_size)
+        # dx = lib.clamp(0, dx, WORLD_SIZE * self.tile_size)
+        # dy = lib.clamp(0, dy, WORLD_SIZE * self.tile_size)
 
         self.Vector2d.x += dx
         self.Vector2d.y += dy
@@ -52,14 +52,14 @@ class Camera(object):
             (x + offset.x) / self.tile_size + bounds.left,
             (y + offset.y) / self.tile_size + bounds.top)
 
-    def draw(self, the_map, tile_size, screen):
+    def draw(self, the_world, tile_size, screen):
         x = y = 0
         bounds = self.get_tile_bounds()
         offset = self.get_tile_offset()
 
         for y, tile_y in enumerate(xrange(bounds.top, bounds.bottom)):
             for x, tile_x in enumerate(xrange(bounds.left, bounds.right)):
-                tile = the_map[tile_x][tile_y]
+                tile = the_world[tile_x][tile_y]
                 tile.draw(tile_size,
                           (x*tile_size) - offset.x,
                           (y*tile_size) - offset.y,

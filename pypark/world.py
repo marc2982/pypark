@@ -1,17 +1,17 @@
 from tile import Tile
 from vector import Vector2d
 
-MAP_SIZE = 100
+WORLD_SIZE = 100
 
 STRAIGHT_MOVE_COST = 10
 DIAGONAL_MOVE_COST = 14
 GRASS_MOVE_COST = 20
 
 
-class Map(object):
+class World(object):
     def __init__(self):
         # dimensions are in tiles
-        self.width = self.height = MAP_SIZE
+        self.width = self.height = WORLD_SIZE
         self.size = (self.width, self.height)
         # TODO: performance:
         # convert this to a 1d array

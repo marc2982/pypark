@@ -1,5 +1,5 @@
 import pygame
-import map
+import world
 from peep import Peep
 from camera import Camera
 from vector import Vector2d
@@ -31,12 +31,12 @@ def run():
     # pypark initialization
     camera = Camera(TILE_SIZE, *SCREEN_DIMENSIONS)
 
-    the_map = map.Map()
+    the_world = world.World()
 
     start_point = Vector2d(13, 12)
     end_point = Vector2d(12, 10)
 
-    make_testing_path(the_map, start_point, end_point)
+    make_testing_path(the_world, start_point, end_point)
 
     the_peep = Peep()
     the_peep.tile_coords = Vector2d(13, 12)
@@ -58,12 +58,12 @@ def run():
                     mouse_pos = pygame.mouse.get_pos()
                     tile_vector2d = camera.get_corresponding_tile(
                         mouse_pos[0], mouse_pos[1])
-                    the_map[tile_vector2d.x][tile_vector2d.y].clicked()
+                    the_world[tile_vector2d.x][tile_vector2d.y].clicked()
                     x, y = tile_vector2d.x, tile_vector2d.y
                 if right_button:
-                    path = the_map.compute_path(start_point, end_point)
+                    path = the_world.compute_path(start_point, end_point)
                     for i in path:
-                        the_map.get_tile(i).colour = RED
+                        the_world.get_tile(i).colour = RED
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
@@ -84,7 +84,7 @@ def run():
         screen.fill(BLACK)
 
         # draw viewable range
-        camera.draw(the_map, TILE_SIZE, screen)
+        camera.draw(the_world, TILE_SIZE, screen)
 
         draw_debug_text(f, screen, camera, mouse_pos, x, y)
 
@@ -99,18 +99,18 @@ def run():
         clock.tick(60)
 
 
-def make_testing_path(the_map, start_point, end_point):
-    the_map.get_tile(start_point).make_path()
-    the_map.get_tile(Vector2d(12, 12)).make_path()
-    the_map.get_tile(Vector2d(11, 12)).make_path()
-    the_map.get_tile(Vector2d(10, 12)).make_path()
-    the_map.get_tile(Vector2d(10, 11)).make_path()
-    the_map.get_tile(Vector2d(10, 10)).make_path()
-    the_map.get_tile(Vector2d(11, 10)).make_path()
-    the_map.get_tile(end_point).make_path()
+def make_testing_path(the_world, start_point, end_point):
+    the_world.get_tile(start_point).make_path()
+    the_world.get_tile(Vector2d(12, 12)).make_path()
+    the_world.get_tile(Vector2d(11, 12)).make_path()
+    the_world.get_tile(Vector2d(10, 12)).make_path()
+    the_world.get_tile(Vector2d(10, 11)).make_path()
+    the_world.get_tile(Vector2d(10, 10)).make_path()
+    the_world.get_tile(Vector2d(11, 10)).make_path()
+    the_world.get_tile(end_point).make_path()
 
-    the_map.get_tile(start_point).colour = WHITE
-    the_map.get_tile(end_point).colour = BLACK
+    the_world.get_tile(start_point).colour = WHITE
+    the_world.get_tile(end_point).colour = BLACK
 
 
 def draw_debug_text(f, screen, camera, mouse_pos, x, y):
