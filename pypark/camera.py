@@ -1,5 +1,6 @@
-import pygame
 from vector import Vector2d
+
+import pygame
 
 
 class Camera(object):

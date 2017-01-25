@@ -1,6 +1,8 @@
 import pygame
-from vector import Vector2d
+
 from constants import BLUE
+from vector import Vector2d
+
 
 class Peep(object):
     def __init__(self):

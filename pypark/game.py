@@ -1,9 +1,10 @@
 import pygame
-import world
-from peep import Peep
+
 from camera import Camera
-from vector import Vector2d
 from constants import BLACK, RED, WHITE
+from peep import Peep
+from vector import Vector2d
+from world import World
 
 SCREEN_HEIGHT = 800
 SCREEN_WIDTH = 600
@@ -31,7 +32,7 @@ def run():
     # pypark initialization
     camera = Camera(TILE_SIZE, *SCREEN_DIMENSIONS)
 
-    the_world = world.World()
+    the_world = World()
 
     start_point = Vector2d(13, 12)
     end_point = Vector2d(12, 10)
