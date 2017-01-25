@@ -59,9 +59,11 @@ class Game(object):
 
         # main loop
         while True:
-            self.screen.fill(BLACK)
+            # self.screen.fill(BLACK)
 
             self.handle_input()
+            self.update()
+            self.draw()
 
             self.camera.draw(self.world, TILE_SIZE, self.screen)
 
@@ -114,6 +116,13 @@ class Game(object):
         if event.key == pygame.K_DOWN:
             self.peeps[0].Vector2d.y -= TILE_SIZE
             self.camera.move_tile(0, 1)
+
+    def update(self):
+        pass
+
+
+    def draw(self):
+        pass
 
     def make_testing_path(self, start_point, end_point):
         self.world.get_tile(start_point).make_path()
