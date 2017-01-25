@@ -39,6 +39,7 @@ class Game(object):
         raise ExitGame('Thanks for playing!')
 
     def run(self):
+        pygame.display.set_caption('PyPark!')
         self.screen.fill(BLACK)
         pygame.display.flip()
 
@@ -69,9 +70,6 @@ class Game(object):
             for peep in self.peeps:
                 peep.draw(self.screen, self.camera.get_tile_bounds(),
                           self.camera)
-
-            pygame.display.set_caption("Py_park - FPS: %s" %
-                                       self.clock.get_fps())
 
             pygame.display.flip()
             self.clock.tick(60)
@@ -131,41 +129,46 @@ class Game(object):
         self.world.get_tile(end_point).colour = BLACK
 
     def draw_debug_text(self, mouse_pos, x, y):
+        text_colour = (255, 120, 255)
+
+        # fps
+        f0 = self.font.render(
+             'FPS: %s' % self.clock.get_fps(), True, text_colour, BLACK)
+        self.screen.blit(f0, (0, 0))
+
         # mouse position
-        font_surface1 = self.font.render(
-            "x: %s, y: %s" % pygame.mouse.get_pos(), True, (255, 120, 255),
+        f1 = self.font.render(
+            "x: %s, y: %s" % pygame.mouse.get_pos(), True, text_colour,
             BLACK)
-        self.screen.blit(font_surface1, (0, 0))
+        self.screen.blit(f1, (0, f0.get_height()))
 
         # tile bounds
         tile_bounds = self.camera.get_tile_bounds()
-        font_surface2 = self.font.render(
+        f2 = self.font.render(
             "viewing - top left: %s, bottom right: %s" %
             (tile_bounds.topleft, tile_bounds.bottomright), True,
-            (255, 120, 255), BLACK)
-        self.screen.blit(font_surface2, (0, font_surface1.get_height()))
+            text_colour, BLACK)
+        self.screen.blit(f2, (0, f0.get_height()*2))
 
         # mouse x,y last clicked
-        font_surface3 = self.font.render(
+        f3 = self.font.render(
             "mouse last clicked - x: %s, y: %s" %
-            (mouse_pos[0], mouse_pos[1]), True, (255, 120, 255), BLACK)
-        self.screen.blit(
-            font_surface3,
-            (0, font_surface2.get_height() + font_surface1.get_height()))
+            (mouse_pos[0], mouse_pos[1]), True, text_colour, BLACK)
+        self.screen.blit(f3, (0, f0.get_height()*3))
 
         # mouse tile last clicked
-        font_surface4 = self.font.render(
+        f4 = self.font.render(
             "mouse tile last clicked - x: %s, y: %s" % (x, y), True,
-            (255, 120, 255), BLACK)
-        self.screen.blit(font_surface4, (0, font_surface1.get_height()*3))
+            text_colour, BLACK)
+        self.screen.blit(f4, (0, f0.get_height()*4))
 
         # mouse tile hover
         hover_tile = self.camera.get_corresponding_tile(
             *pygame.mouse.get_pos())
-        font_surface5 = self.font.render(
+        f5 = self.font.render(
             "mouse tile hover - x: %s, y: %s" % (hover_tile.x, hover_tile.y),
-            True, (255, 120, 255), BLACK)
-        self.screen.blit(font_surface5, (0, font_surface1.get_height()*4))
+            True, text_colour, BLACK)
+        self.screen.blit(f5, (0, f0.get_height()*5))
 
 
 def get_default_font():
