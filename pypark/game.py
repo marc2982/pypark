@@ -28,6 +28,8 @@ class Game(object):
 
     def setup(self):
         pygame.init()
+        pygame.display.set_caption('PyPark!')
+
         self.screen = pygame.display.set_mode(SCREEN_DIMENSIONS)
         self.clock = pygame.time.Clock()
 
@@ -35,29 +37,20 @@ class Game(object):
         self.world = World()
         self.font = get_default_font()
 
+        self.screen.fill(BLACK)
+        pygame.display.flip()
+
     def exit_game(self):
         raise ExitGame('Thanks for playing!')
 
     def run(self):
-        pygame.display.set_caption('PyPark!')
-        self.screen.fill(BLACK)
-        pygame.display.flip()
-
-        # make testing objects
+        # initialize debug/testing objects
         self.start_point = Vector2d(13, 12)
         self.end_point = Vector2d(12, 10)
-
-        self.make_testing_path(self.start_point, self.end_point)
-
-        the_peep = Peep()
-        the_peep.tile_coords = self.start_point
-        self.peeps.append(the_peep)
-
-        # used for debug only
+        self.make_test_objects()
         self.mouse_pos = Vector2d(pygame.mouse.get_pos())
         self.x = self.y = -1
 
-        # main loop
         while True:
             self.tick()
             self.clock.tick(60)
@@ -122,18 +115,22 @@ class Game(object):
 
         pygame.display.flip()
 
-    def make_testing_path(self, start_point, end_point):
-        self.world.get_tile(start_point).make_path()
+    def make_test_objects(self):
+        self.world.get_tile(self.start_point).make_path()
         self.world.get_tile(Vector2d(12, 12)).make_path()
         self.world.get_tile(Vector2d(11, 12)).make_path()
         self.world.get_tile(Vector2d(10, 12)).make_path()
         self.world.get_tile(Vector2d(10, 11)).make_path()
         self.world.get_tile(Vector2d(10, 10)).make_path()
         self.world.get_tile(Vector2d(11, 10)).make_path()
-        self.world.get_tile(end_point).make_path()
+        self.world.get_tile(self.end_point).make_path()
 
-        self.world.get_tile(start_point).colour = WHITE
-        self.world.get_tile(end_point).colour = BLACK
+        self.world.get_tile(self.start_point).colour = WHITE
+        self.world.get_tile(self.end_point).colour = BLACK
+
+        peep = Peep()
+        peep.tile_coords = self.start_point
+        self.peeps.append(peep)
 
     def draw_debug_text(self, mouse_pos, x, y):
         text_colour = (255, 120, 255)
