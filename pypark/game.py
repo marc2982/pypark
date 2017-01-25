@@ -35,77 +35,87 @@ class Game(object):
         self.world = World()
         self.font = get_default_font()
 
+    def exit_game(self):
+        raise ExitGame('Thanks for playing!')
+
     def run(self):
         self.screen.fill(BLACK)
         pygame.display.flip()
 
-        start_point = Vector2d(13, 12)
-        end_point = Vector2d(12, 10)
+        # make testing objects
+        self.start_point = Vector2d(13, 12)
+        self.end_point = Vector2d(12, 10)
 
-        self.make_testing_path(start_point, end_point)
+        self.make_testing_path(self.start_point, self.end_point)
 
         the_peep = Peep()
-        the_peep.tile_coords = start_point
+        the_peep.tile_coords = self.start_point
         self.peeps.append(the_peep)
 
-        mouse_pos = Vector2d(pygame.mouse.get_pos())
-        x = y = -1  # used in debug only
+        # used for debug only
+        self.mouse_pos = Vector2d(pygame.mouse.get_pos())
+        self.x = self.y = -1
 
         # main loop
         while True:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    raise ExitGame('Thanks for playing!')
-
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    left_button, middle_button, right_button = \
-                        pygame.mouse.get_pressed()
-
-                    if left_button:
-                        mouse_pos = pygame.mouse.get_pos()
-                        tile_vector2d = self.camera.get_corresponding_tile(
-                            mouse_pos[0], mouse_pos[1])
-                        self.world[tile_vector2d.x][tile_vector2d.y].clicked()
-                        x, y = tile_vector2d.x, tile_vector2d.y
-                    if right_button:
-                        path = self.world.compute_path(start_point, end_point)
-                        for i in path:
-                            self.world.get_tile(i).colour = RED
-
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_ESCAPE:
-                        raise ExitGame('Thanks for playing!')
-                    if event.key == pygame.K_RIGHT:
-                        the_peep.Vector2d.x -= TILE_SIZE
-                        self.camera.move_tile(1, 0)
-                    if event.key == pygame.K_LEFT:
-                        the_peep.Vector2d.x += TILE_SIZE
-                        self.camera.move_tile(-1, 0)
-                    if event.key == pygame.K_UP:
-                        the_peep.Vector2d.y += TILE_SIZE
-                        self.camera.move_tile(0, -1)
-                    if event.key == pygame.K_DOWN:
-                        the_peep.Vector2d.y -= TILE_SIZE
-                        self.camera.move_tile(0, 1)
-
             self.screen.fill(BLACK)
 
-            # draw viewable range
+            self.handle_input()
+
             self.camera.draw(self.world, TILE_SIZE, self.screen)
 
-            self.draw_debug_text(mouse_pos, x, y)
+            self.draw_debug_text(self.mouse_pos, self.x, self.y)
 
-            # draw peep
-            the_peep.draw(self.screen, self.camera.get_tile_bounds(),
+            for peep in self.peeps:
+                peep.draw(self.screen, self.camera.get_tile_bounds(),
                           self.camera)
 
-            # set caption
             pygame.display.set_caption("Py_park - FPS: %s" %
                                        self.clock.get_fps())
 
-            # flip buffer and set fps
             pygame.display.flip()
             self.clock.tick(60)
+
+    def handle_input(self):
+        # maybe use .poll() to get the first and clear the queue?
+        # depends how i want it to work
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.exit_game()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                self.mouse_input(event)
+            elif event.type == pygame.KEYDOWN:
+                self.keyboard_input(event)
+
+    def mouse_input(self, event):
+        left, middle, right = pygame.mouse.get_pressed()
+
+        if left:
+            mouse_pos = pygame.mouse.get_pos()
+            tile_vector2d = self.camera.get_corresponding_tile(
+                mouse_pos[0], mouse_pos[1])
+            self.world[tile_vector2d.x][tile_vector2d.y].clicked()
+            self.x, self.y = tile_vector2d.x, tile_vector2d.y
+        elif right:
+            path = self.world.compute_path(self.start_point, self.end_point)
+            for i in path:
+                self.world.get_tile(i).colour = RED
+
+    def keyboard_input(self, event):
+        if event.key == pygame.K_ESCAPE:
+            self.exit_game()
+        if event.key == pygame.K_RIGHT:
+            self.peeps[0].Vector2d.x -= TILE_SIZE
+            self.camera.move_tile(1, 0)
+        if event.key == pygame.K_LEFT:
+            self.peeps[0].Vector2d.x += TILE_SIZE
+            self.camera.move_tile(-1, 0)
+        if event.key == pygame.K_UP:
+            self.peeps[0].Vector2d.y += TILE_SIZE
+            self.camera.move_tile(0, -1)
+        if event.key == pygame.K_DOWN:
+            self.peeps[0].Vector2d.y -= TILE_SIZE
+            self.camera.move_tile(0, 1)
 
     def make_testing_path(self, start_point, end_point):
         self.world.get_tile(start_point).make_path()
