@@ -20,6 +20,10 @@ class Vector2d(object):
             self.x = x_or_pair
             self.y = y
 
+    @property
+    def tuple(self):
+        return (self.x, self.y)
+
     def __len__(self):
         return 2
 
