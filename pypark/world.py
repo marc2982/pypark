@@ -154,7 +154,9 @@ class World(object):
             else:
                 the_set.remove(n)
 
-        return [n.Vector2d for n in the_set]
+        path = [n.Vector2d for n in the_set]
+        path.reverse()
+        return path
 
 class Node:
     def __init__(self):
