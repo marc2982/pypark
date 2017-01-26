@@ -24,6 +24,9 @@ class Vector2d(object):
     def tuple(self):
         return (self.x, self.y)
 
+    def intify(self):
+        return Vector2d(int(self.x), int(self.y))
+
     def __len__(self):
         return 2
 
