@@ -88,16 +88,16 @@ class Game(object):
     def keyboard_input(self, event):
         if event.key == pygame.K_ESCAPE:
             self.exit_game()
-        if event.key == pygame.K_RIGHT:
+        if event.key in (pygame.K_RIGHT, pygame.K_f):
             self.peeps[0].Vector2d.x -= TILE_SIZE
             self.camera.move_tile(1, 0)
-        if event.key == pygame.K_LEFT:
+        elif event.key in (pygame.K_LEFT, pygame.K_s):
             self.peeps[0].Vector2d.x += TILE_SIZE
             self.camera.move_tile(-1, 0)
-        if event.key == pygame.K_UP:
+        elif event.key in (pygame.K_UP, pygame.K_e):
             self.peeps[0].Vector2d.y += TILE_SIZE
             self.camera.move_tile(0, -1)
-        if event.key == pygame.K_DOWN:
+        elif event.key in (pygame.K_DOWN, pygame.K_d):
             self.peeps[0].Vector2d.y -= TILE_SIZE
             self.camera.move_tile(0, 1)
 
