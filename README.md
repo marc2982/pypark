@@ -7,12 +7,10 @@ The idea of this project is to discover how 2D tile-based engines work and is mo
 This was a project that I recently rediscovered after years of gathering dust. It required some love so I'm currently working on it in my (limited) spare time.
 
 # TODO
-- more cleanup!
-- fix weird dependencies between objects, especially when drawing
+- always more cleanup!
 - proper entrypoint and python packaging
-- properly implement camera viewport and movement
 - create testing framework
-- make peeps walk to destination
-- update this readme :P
+- shops (to set a target tile and target x/y)
+- peep decision making
 - add fun at somepoint?
-- so much more
+- so much more...
