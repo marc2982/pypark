@@ -1,5 +1,8 @@
+from constants import TILE_SIZE
 from tile import Tile
 from vector import Vector2d
+
+import pygame
 
 WORLD_SIZE = 100
 
@@ -24,6 +27,19 @@ class World(object):
 
     def get_tile(self, p):
         return self[p.x][p.y]
+
+    def draw(self, camera, screen):
+        camera_rect = camera.rect
+        for tile_y in range(self.height):
+            for tile_x in range(self.width):
+                world_x = tile_x * TILE_SIZE
+                world_y = tile_y * TILE_SIZE
+                rect = pygame.Rect(world_x, world_y, TILE_SIZE, TILE_SIZE)
+                if camera_rect.contains(rect):
+                    screen_x = world_x - camera.position.x
+                    screen_y = world_y - camera.position.y
+                    tile = self[tile_x][tile_y]
+                    tile.draw(screen_x, screen_y, screen)
 
     def compute_path(self, start, end, cut_corners=False):
         return self.a_star(start, end, cut_corners=cut_corners)
