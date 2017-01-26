@@ -1,67 +1,48 @@
+from constants import TILE_SIZE
+from lib import clamp
 from vector import Vector2d
 
 import pygame
 
 
 class Camera(object):
-    # TODO: performance:
-    # only calculate tile_offset and tile_bounds after camera movement
 
-    def __init__(self, tile_size, w, h):
-        self.tile_size = tile_size
-        self.Vector2d = Vector2d(0, 0)
-        self.size = Vector2d(w, h)
+    def __init__(self, world, position, w, h):
+        self.world = world
+        # position is top left of camera in world coordinates
+        self.position = position or Vector2d(0, 0)  # top left of camera
+        self.width = w
+        self.height = h
 
-    def move(self, dx, dy):
-        # TODO: figure this out
-        # dx = lib.clamp(0, dx, WORLD_SIZE * self.tile_size)
-        # dy = lib.clamp(0, dy, WORLD_SIZE * self.tile_size)
+        self.max_x = self.world.width_coords - self.width
+        self.max_y = self.world.height_coords - self.height
 
-        self.Vector2d.x += dx
-        self.Vector2d.y += dy
+    @property
+    def rect(self):
+        x = self.position.x
+        y = self.position.y
+        return pygame.Rect(x, y, self.width, self.height)
 
     def move_tile(self, tile_x, tile_y):
-        self.move(tile_x * self.tile_size, tile_y * self.tile_size)
+        """Move by increments of given number of tiles."""
+        self.move(tile_x * TILE_SIZE, tile_y * TILE_SIZE)
 
-    def jump_to(self, x, y):
-        self.Vector2d.x = x
-        self.Vector2d.y = y
+    def move(self, dx, dy):
+        """Move the camera by the given dx and dy distances."""
+        new_x = clamp(self.position.x + dx, 0, self.max_x)
+        new_y = clamp(self.position.y + dy, 0, self.max_y)
+        self.position = Vector2d(new_x, new_y)
 
-    def get_tile_offset(self):
-        return Vector2d(
-            self.Vector2d.x % self.tile_size,
-            self.Vector2d.y % self.tile_size)
+    def get_world_tile(self, x, y):
+        """Return the corresponding world tile to the given screen coords."""
+        pos = self.get_world_tile_indexes(x, y)
+        return self.world[pos.x][pos.y]
 
-    def get_tile_bounds(self):
-        x = int(self.Vector2d.x / self.tile_size)
-        y = int(self.Vector2d.y / self.tile_size)
+    def get_world_coords(self, x, y):
+        """Return the corresponding world coords to the given screen coords."""
+        return self.position + Vector2d(x, y)
 
-        w = int(self.size.x / self.tile_size) + 2
-        h = int(self.size.y / self.tile_size) + 2
-
-        if x % self.tile_size != 0:
-            w += 1
-        if y % self.tile_size != 0:
-            h += 1
-
-        return pygame.Rect(x, y, w, h)
-
-    def get_corresponding_tile(self, x, y):
-        bounds = self.get_tile_bounds()
-        offset = self.get_tile_offset()
-        return Vector2d(
-            (x + offset.x) / self.tile_size + bounds.left,
-            (y + offset.y) / self.tile_size + bounds.top)
-
-    def draw(self, the_world, tile_size, screen):
-        x = y = 0
-        bounds = self.get_tile_bounds()
-        offset = self.get_tile_offset()
-
-        for y, tile_y in enumerate(xrange(bounds.top, bounds.bottom)):
-            for x, tile_x in enumerate(xrange(bounds.left, bounds.right)):
-                tile = the_world[tile_x][tile_y]
-                tile.draw(tile_size,
-                          (x*tile_size) - offset.x,
-                          (y*tile_size) - offset.y,
-                          screen)
+    def get_world_tile_indexes(self, x, y):
+        """Return the corresponding world tiles to the given screen coords."""
+        pos = self.get_world_coords(x, y)
+        return Vector2d(pos.x / TILE_SIZE, pos.y / TILE_SIZE)

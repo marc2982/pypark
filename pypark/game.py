@@ -32,10 +32,12 @@ class Game(object):
 
         self.screen = pygame.display.set_mode(SCREEN_DIMENSIONS)
         self.clock = pygame.time.Clock()
-
-        self.camera = Camera(TILE_SIZE, *SCREEN_DIMENSIONS)
-        self.world = World()
         self.font = get_default_font()
+
+        self.world = World()
+        self.camera = Camera(self.world,
+                             Vector2d(0, 0),
+                             *SCREEN_DIMENSIONS)
 
         self.screen.fill(BLACK)
         pygame.display.flip()
@@ -75,11 +77,11 @@ class Game(object):
         left, middle, right = pygame.mouse.get_pressed()
 
         if left:
-            mouse_pos = pygame.mouse.get_pos()
-            tile_vector2d = self.camera.get_corresponding_tile(
-                mouse_pos[0], mouse_pos[1])
-            self.world[tile_vector2d.x][tile_vector2d.y].clicked()
-            self.x, self.y = tile_vector2d.x, tile_vector2d.y
+            tile = self.camera.get_world_tile(*pygame.mouse.get_pos())
+            tile.clicked()
+            # debug below
+            self.x, self.y = \
+                self.camera.get_world_tile_indexes(*pygame.mouse.get_pos())
         elif right:
             path = self.world.compute_path(self.start_point, self.end_point)
             for i in path:
@@ -89,16 +91,12 @@ class Game(object):
         if event.key == pygame.K_ESCAPE:
             self.exit_game()
         if event.key in (pygame.K_RIGHT, pygame.K_f):
-            self.peeps[0].Vector2d.x -= TILE_SIZE
             self.camera.move_tile(1, 0)
         elif event.key in (pygame.K_LEFT, pygame.K_s):
-            self.peeps[0].Vector2d.x += TILE_SIZE
             self.camera.move_tile(-1, 0)
         elif event.key in (pygame.K_UP, pygame.K_e):
-            self.peeps[0].Vector2d.y += TILE_SIZE
             self.camera.move_tile(0, -1)
         elif event.key in (pygame.K_DOWN, pygame.K_d):
-            self.peeps[0].Vector2d.y -= TILE_SIZE
             self.camera.move_tile(0, 1)
 
     def update(self):
@@ -106,12 +104,12 @@ class Game(object):
             peep.update()
 
     def draw(self):
-        self.camera.draw(self.world, TILE_SIZE, self.screen)
+        self.world.draw(self.camera, self.screen)
+
         self.draw_debug_text(self.mouse_pos, self.x, self.y)
 
         for peep in self.peeps:
-            peep.draw(self.screen, self.camera.get_tile_bounds(),
-                      self.camera)
+            peep.draw(self.camera, self.screen)
 
         pygame.display.flip()
 
@@ -128,8 +126,7 @@ class Game(object):
         self.world.get_tile(self.start_point).colour = WHITE
         self.world.get_tile(self.end_point).colour = BLACK
 
-        peep = Peep()
-        peep.tile_coords = self.start_point
+        peep = Peep(self.start_point * TILE_SIZE)
         self.peeps.append(peep)
 
     def draw_debug_text(self, mouse_pos, x, y):
@@ -140,14 +137,14 @@ class Game(object):
              'FPS: %s' % self.clock.get_fps(), True, text_colour, BLACK)
         self.screen.blit(f0, (0, 0))
 
-        # mouse position
+        # mouse position (screen coords)
         f1 = self.font.render(
-            "x: %s, y: %s" % pygame.mouse.get_pos(), True, text_colour,
-            BLACK)
+            "mouse screen x: %s, y: %s" % pygame.mouse.get_pos(), True,
+            text_colour, BLACK)
         self.screen.blit(f1, (0, f0.get_height()))
 
-        # tile bounds
-        tile_bounds = self.camera.get_tile_bounds()
+        # camera tile rect
+        tile_bounds = self.camera.rect
         f2 = self.font.render(
             "viewing - top left: %s, bottom right: %s" %
             (tile_bounds.topleft, tile_bounds.bottomright), True,
@@ -167,8 +164,8 @@ class Game(object):
         self.screen.blit(f4, (0, f0.get_height()*4))
 
         # mouse tile hover
-        hover_tile = self.camera.get_corresponding_tile(
-            *pygame.mouse.get_pos())
+        hover_pos = self.camera.position + Vector2d(*pygame.mouse.get_pos())
+        hover_tile = hover_pos / TILE_SIZE
         f5 = self.font.render(
             "mouse tile hover - x: %s, y: %s" % (hover_tile.x, hover_tile.y),
             True, text_colour, BLACK)

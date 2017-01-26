@@ -1,6 +1,6 @@
 import pygame
 
-from constants import GRASS_COLOUR, BORDER_COLOUR, PATH_COLOUR
+from constants import GRASS_COLOUR, BORDER_COLOUR, PATH_COLOUR, TILE_SIZE
 
 
 class Tile(object):
@@ -26,8 +26,12 @@ class Tile(object):
         self.is_path = False
         self.colour = GRASS_COLOUR
 
-    def draw(self, tile_size, x, y, screen):
-        r = pygame.Rect(x, y, tile_size, tile_size)
+    def draw(self, x, y, screen):
+        """Draw the tile on the given screen.
+
+        Note that x and y are screen coordinates and not world coordinates.
+        """
+        r = pygame.Rect(x, y, TILE_SIZE, TILE_SIZE)
         if self.colour:
             r = screen.fill(self.colour, r)
         pygame.draw.rect(screen, BORDER_COLOUR, r, 1)

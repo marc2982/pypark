@@ -12,10 +12,12 @@ GRASS_MOVE_COST = 20
 
 
 class World(object):
+
     def __init__(self):
-        # dimensions are in tiles
-        self.width = self.height = WORLD_SIZE
-        self.size = (self.width, self.height)
+        self.width = WORLD_SIZE  # tiles
+        self.height = WORLD_SIZE  # tiles
+        self.width_coords = self.width * TILE_SIZE
+        self.height_coords = self.height * TILE_SIZE
         # TODO: performance:
         # convert this to a 1d array
         # http://www.reddit.com/r/gamedev/comments/jgv2m/performance_of_arrays/
