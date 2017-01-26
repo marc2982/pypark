@@ -2,8 +2,6 @@ import pygame
 
 from constants import BLUE, TILE_SIZE
 
-OFFSET = TILE_SIZE / 2
-
 
 class Peep(object):
 
@@ -19,4 +17,4 @@ class Peep(object):
             screen_pos = self.position - camera.position
             pygame.draw.circle(
                 screen, BLUE,
-                (screen_pos.x + OFFSET, screen_pos.y + OFFSET), 5, 0)
+                (screen_pos.x, screen_pos.y), 5, 0)

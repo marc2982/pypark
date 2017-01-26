@@ -126,7 +126,8 @@ class Game(object):
         self.world.get_tile(self.start_point).colour = WHITE
         self.world.get_tile(self.end_point).colour = BLACK
 
-        peep = Peep(self.start_point * TILE_SIZE)
+        # start peep in middle of tile
+        peep = Peep(self.start_point * TILE_SIZE + TILE_SIZE/2)
         self.peeps.append(peep)
 
     def draw_debug_text(self, mouse_pos, x, y):
