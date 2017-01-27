@@ -12,13 +12,17 @@ class Peep(object):
         self.path = None
         self.speed = 1
 
+    @property
+    def current_tile(self):
+        return self.position / TILE_SIZE
+
     def update(self):
         if self.destination_tile:
             self._move_along_path()
 
     def _move_along_path(self):
         """Move along the current path to the destination."""
-        current_tile = self.position / TILE_SIZE
+        current_tile = self.current_tile  # calculate once
 
         if current_tile != self.destination_tile and not self.path:
             raise Exception('no path to destination :(')
