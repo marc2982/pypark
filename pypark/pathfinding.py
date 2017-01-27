@@ -128,6 +128,11 @@ class Pathfinding(object):
         return path
 
 class Node:
+
+    """A node in the path."""
+
+    __slots__ = ('f', 'g', 'h', 'Vector2d', 'parent')
+
     def __init__(self):
         self.f = 0
         self.g = 0
