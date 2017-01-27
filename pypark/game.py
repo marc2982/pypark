@@ -103,7 +103,7 @@ class Game(object):
 
     def update(self):
         for peep in self.peeps:
-            peep.update()
+            peep.update(self.world)
 
     def draw(self):
         self.world.draw(self.camera, self.screen)

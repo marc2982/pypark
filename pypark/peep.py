@@ -1,6 +1,9 @@
-import pygame
+import random
 
-from constants import BLUE, TILE_SIZE
+from constants import BLUE, TILE_SIZE, RED
+from vector import Vector2d
+
+import pygame
 
 
 class Peep(object):
@@ -16,9 +19,12 @@ class Peep(object):
     def current_tile(self):
         return self.position / TILE_SIZE
 
-    def update(self):
+    def update(self, world):
+        """Called every tick to update peep."""
         if self.destination_tile:
             self._move_along_path()
+        else:
+            self.choose_new_destination(world)
 
     def _move_along_path(self):
         """Move along the current path to the destination."""
@@ -29,7 +35,7 @@ class Peep(object):
 
         next_tile = self.path[0]
         if current_tile == next_tile:
-            # go to middle of tile
+            # TODO: go to middle of tile only if destination coords aren't set
             tile_middle = next_tile * TILE_SIZE + TILE_SIZE/2
 
             # TODO: won't work with speed != 1 cause of overshooting
@@ -51,6 +57,18 @@ class Peep(object):
         # move if necessary
         if normal_vector:
             self.position += normal_vector * self.speed
+
+    def choose_new_destination(self, world):
+        """Choose a new destination tile."""
+        if world.directory.shops:
+            destination = random.choice(world.directory.shops)
+            # TODO: Compute target tile to be the path that touches it.
+            # Currently hardcoded tile directly below shop to be target tile
+            # (because you can't walk on shop tile).
+            self.destination_tile = destination.position + Vector2d(0, 1)
+            # TODO: add destination coords
+            self.path = world.pathfinder.compute(
+                self.current_tile, self.destination_tile)
 
     def draw(self, camera, screen):
         if camera.rect.collidepoint(self.position.tuple):
