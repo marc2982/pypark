@@ -31,17 +31,26 @@ class Tile(object):
     def make_path(self):
         self.is_path = True
         self.is_shop = False
-        self.colour = PATH_COLOUR
+        self.set_colour()
 
     def make_grass(self):
         self.is_path = False
         self.is_shop = False
-        self.colour = GRASS_COLOUR
+        self.set_colour()
 
     def make_shop(self):
         self.is_path = False
         self.is_shop = True
-        self.colour = SHOP_COLOUR
+        self.set_colour()
+
+    def set_colour(self):
+        """Sets tile colour."""
+        if self.is_path:
+            self.colour = PATH_COLOUR
+        elif self.is_shop:
+            self.colour = SHOP_COLOUR
+        else:
+            self.colour = GRASS_COLOUR
 
     def draw(self, x, y, screen):
         """Draw the tile on the given screen.
