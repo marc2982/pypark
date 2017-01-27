@@ -14,6 +14,8 @@ class Peep(object):
         self.destination_tile = None
         self.path = None
         self.speed = 1
+        self.acting_at_destination = True
+        self.acting_ticks = 0
 
     @property
     def current_tile(self):
@@ -21,7 +23,12 @@ class Peep(object):
 
     def update(self, world):
         """Called every tick to update peep."""
-        if self.destination_tile:
+        if self.acting_at_destination:
+            self.acting_ticks += 1
+            if self.acting_ticks == 60:  # arbitrary waiting period
+                self.acting_ticks = 0
+                self.acting_at_destination = False
+        elif self.destination_tile:
             self._move_along_path()
         else:
             self.choose_new_destination(world)
@@ -43,6 +50,7 @@ class Peep(object):
                 if current_tile == self.destination_tile:
                     self.destination_tile = None
                     self.path = None
+                    self.acting_at_destination = True
                     return
 
                 # get new tile
