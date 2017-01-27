@@ -10,12 +10,14 @@ Problems I hope to gain insights into:
 - how 2d tile-engines work
 - object dependencies and how best to structure the data
 - performance implications (of both Python and chosen data structures)
+- understanding proper game loops
 - discovering problems I haven't thought about
 
 # TODO
 - always more cleanup!
 - proper entrypoint and python packaging
 - create testing framework
+- decouple update logic from frame rate
 - shops target coordinates (x,y)
 - more peep decision making
 - add fun at somepoint?
