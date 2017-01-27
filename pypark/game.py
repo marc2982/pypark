@@ -75,6 +75,7 @@ class Game(object):
 
     def mouse_input(self, event):
         left, middle, right = pygame.mouse.get_pressed()
+        mouse_pos = pygame.mouse.get_pos()
 
         if left:
             tile = self.camera.get_world_tile(*pygame.mouse.get_pos())
@@ -82,6 +83,14 @@ class Game(object):
             # debug below
             self.x, self.y = \
                 self.camera.get_world_tile_indexes(*pygame.mouse.get_pos())
+        elif middle:
+            tile = self.camera.get_world_tile(*mouse_pos)
+            is_shop = tile.toggle_shop()
+            shop_location = self.camera.get_world_tile_indexes(*mouse_pos)
+            if is_shop:
+                self.world.directory.add_shop(shop_location)
+            else:
+                self.world.directory.remove_shop(shop_location)
         elif right:
             path = self.world.compute_path(self.start_point, self.end_point)
             for i in path:
