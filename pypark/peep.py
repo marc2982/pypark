@@ -78,6 +78,12 @@ class Peep(object):
             self.path = world.pathfinder.compute(
                 self.current_tile, self.destination_tile)
 
+            # debug draw
+            for tile in world.iter_tiles():
+                tile.set_colour()
+            for node in self.path:
+                world[node.x][node.y].colour = RED
+
     def draw(self, camera, screen):
         if camera.rect.collidepoint(self.position.tuple):
             screen_pos = self.position - camera.position
