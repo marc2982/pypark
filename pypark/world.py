@@ -1,4 +1,5 @@
 from constants import TILE_SIZE
+from directory import Directory
 from pathfinding import Pathfinding
 from tile import Tile
 
@@ -9,7 +10,7 @@ WORLD_SIZE = 100
 
 class World(object):
 
-    def __init__(self, pathfinder=None):
+    def __init__(self, pathfinder=None, directory=None):
         self.width = WORLD_SIZE  # tiles
         self.height = WORLD_SIZE  # tiles
         self.width_coords = self.width * TILE_SIZE
@@ -20,6 +21,7 @@ class World(object):
         self.tiles = [
             [Tile() for x in range(self.width)] for y in range(self.height)]
         self.pathfinder = pathfinder or Pathfinding(self)
+        self.directory = directory or Directory()
 
     def __getitem__(self, key):
         return self.tiles[key]
