@@ -92,11 +92,7 @@ class Game(object):
             else:
                 self.world.directory.remove_shop(shop_location)
         elif right:
-            path = self.world.compute_path(self.start_point, self.end_point)
-            for i in path:
-                self.world.get_tile(i).colour = RED
-            self.peeps[0].destination_tile = self.end_point
-            self.peeps[0].path = path
+            pass  # do nothing for now
 
     def keyboard_input(self, event):
         if event.key == pygame.K_ESCAPE:
