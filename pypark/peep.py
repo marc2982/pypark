@@ -14,35 +14,39 @@ class Peep(object):
 
     def update(self):
         if self.destination_tile:
-            current_tile = self.position / TILE_SIZE
+            self._move_along_path()
 
-            if current_tile != self.destination_tile and not self.path:
-                raise Exception('no path to destination :(')
+    def _move_along_path(self):
+        """Move along the current path to the destination."""
+        current_tile = self.position / TILE_SIZE
 
-            next_tile = self.path[0]
-            if current_tile == next_tile:
-                # go to middle of tile
-                tile_middle = next_tile * TILE_SIZE + TILE_SIZE/2
+        if current_tile != self.destination_tile and not self.path:
+            raise Exception('no path to destination :(')
 
-                # TODO: won't work with speed != 1 cause of overshooting
-                if self.position == tile_middle:
-                    if current_tile == self.destination_tile:
-                        self.destination_tile = None
-                        self.path = None
-                        return
+        next_tile = self.path[0]
+        if current_tile == next_tile:
+            # go to middle of tile
+            tile_middle = next_tile * TILE_SIZE + TILE_SIZE/2
 
-                    # get new tile
-                    self.path.pop(0)
-                    normal_vector = None
-                else:
-                    normal_vector = (
-                        tile_middle - self.position).normalized().intify()
+            # TODO: won't work with speed != 1 cause of overshooting
+            if self.position == tile_middle:
+                if current_tile == self.destination_tile:
+                    self.destination_tile = None
+                    self.path = None
+                    return
+
+                # get new tile
+                self.path.pop(0)
+                normal_vector = None
             else:
-                normal_vector = next_tile - current_tile
+                normal_vector = (
+                    tile_middle - self.position).normalized().intify()
+        else:
+            normal_vector = next_tile - current_tile
 
-            # move if necessary
-            if normal_vector:
-                self.position += normal_vector * self.speed
+        # move if necessary
+        if normal_vector:
+            self.position += normal_vector * self.speed
 
     def draw(self, camera, screen):
         if camera.rect.collidepoint(self.position.tuple):
