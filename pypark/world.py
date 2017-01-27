@@ -29,6 +29,11 @@ class World(object):
     def get_tile(self, p):
         return self[p.x][p.y]
 
+    def iter_tiles(self):
+        for tile_y in range(self.height):
+            for tile_x in range(self.width):
+                yield self[tile_x][tile_y]
+
     def draw(self, camera, screen):
         camera_rect = camera.rect
         for tile_y in range(self.height):
