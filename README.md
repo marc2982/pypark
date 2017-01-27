@@ -6,11 +6,17 @@ The idea of this project is to discover how 2D tile-based engines work and is mo
 
 This was a project that I recently rediscovered after years of gathering dust. It required some love so I'm currently working on it in my (limited) spare time.
 
+Problems I hope to gain insights into:
+- how 2d tile-engines work
+- object dependencies and how best to structure the data
+- performance implications (of both Python and chosen data structures)
+- discovering problems I haven't thought about
+
 # TODO
 - always more cleanup!
 - proper entrypoint and python packaging
 - create testing framework
-- shops (to set a target tile and target x/y)
-- peep decision making
+- shops target coordinates (x,y)
+- more peep decision making
 - add fun at somepoint?
 - so much more...
