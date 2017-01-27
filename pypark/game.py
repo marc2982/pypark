@@ -1,7 +1,7 @@
 import pygame
 
 from camera import Camera
-from constants import BLACK, RED, WHITE, SCREEN_DIMENSIONS, TILE_SIZE
+from constants import BLACK, SCREEN_DIMENSIONS, TILE_SIZE
 from peep import Peep
 from vector import Vector2d
 from world import World
@@ -130,8 +130,8 @@ class Game(object):
         self.world.get_tile(Vector2d(11, 10)).make_path()
         self.world.get_tile(self.end_point).make_path()
 
-        self.world.get_tile(self.start_point).colour = WHITE
-        self.world.get_tile(self.end_point).colour = BLACK
+        #self.world.get_tile(self.start_point).colour = WHITE
+        #self.world.get_tile(self.end_point).colour = BLACK
 
         # start peep in middle of tile
         peep = Peep(self.start_point * TILE_SIZE + TILE_SIZE/2)
