@@ -1,12 +1,15 @@
 import pygame
 
-from constants import GRASS_COLOUR, BORDER_COLOUR, PATH_COLOUR, TILE_SIZE
+from constants import (
+    GRASS_COLOUR, BORDER_COLOUR, PATH_COLOUR, TILE_SIZE, SHOP_COLOUR)
 
 
 class Tile(object):
+
     def __init__(self):
         self.colour = GRASS_COLOUR
         self.is_path = False
+        self.is_shop = False
         self.H = None
 
     def clicked(self):
@@ -18,13 +21,27 @@ class Tile(object):
         else:
             self.make_path()
 
+    def toggle_shop(self):
+        if self.is_shop:
+            self.make_grass()
+        else:
+            self.make_shop()
+        return self.is_shop
+
     def make_path(self):
         self.is_path = True
+        self.is_shop = False
         self.colour = PATH_COLOUR
 
     def make_grass(self):
         self.is_path = False
+        self.is_shop = False
         self.colour = GRASS_COLOUR
+
+    def make_shop(self):
+        self.is_path = False
+        self.is_shop = True
+        self.colour = SHOP_COLOUR
 
     def draw(self, x, y, screen):
         """Draw the tile on the given screen.
