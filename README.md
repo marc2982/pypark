@@ -15,6 +15,7 @@ Problems I hope to gain insights into:
 
 # TODO
 - always more cleanup!
+- proper action handling / context
 - proper entrypoint and python packaging
 - create testing framework
 - decouple update logic from frame rate
