@@ -185,5 +185,9 @@ def get_default_font():
     return pygame.font.Font(default_font, 12)
 
 
-if __name__ == '__main__':
+def main():
     Game().start()
+
+
+if __name__ == '__main__':
+    main()
