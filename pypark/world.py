@@ -10,9 +10,10 @@ WORLD_SIZE = 100
 
 class World(object):
 
-    def __init__(self, pathfinder=None, directory=None):
-        self.width = WORLD_SIZE  # tiles
-        self.height = WORLD_SIZE  # tiles
+    def __init__(self, width=WORLD_SIZE, height=WORLD_SIZE, pathfinder=None,
+                 directory=None):
+        self.width = width  # tiles
+        self.height = height  # tiles
         self.width_coords = self.width * TILE_SIZE
         self.height_coords = self.height * TILE_SIZE
         # TODO: performance:
