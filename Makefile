@@ -4,4 +4,4 @@ clean:
 	find . -name *.pyc -delete
 
 test:
-	@echo "no tests yet!"
+	nosetests -P tests/unit/
