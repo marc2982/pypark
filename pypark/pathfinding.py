@@ -53,7 +53,9 @@ class Pathfinding(object):
                                       node.Vector2d.y + node_position[1])
 
                 # is the node in bounds and walkable? if not, move to next node
-                if not self.world.get_tile(n.Vector2d).is_path:
+                # TODO: this doesn't take into account grass movement
+                tile = self.world.get_tile(n.Vector2d)
+                if not tile or not tile.is_path:
                     continue
 
                 if not cut_corners:

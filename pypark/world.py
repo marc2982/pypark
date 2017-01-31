@@ -28,7 +28,11 @@ class World(object):
         return self.tiles[key]
 
     def get_tile(self, p):
-        return self[p.x][p.y]
+        """Return the tile at given point or None if out of bounds."""
+        try:
+            return self[p.x][p.y]
+        except IndexError:
+            return None
 
     def iter_tiles(self):
         for tile_y in range(self.height):
