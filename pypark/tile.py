@@ -10,6 +10,9 @@ class Tile(object):
         self.is_grass = False
         self.is_path = False
         self.is_shop = False
+        self.colour = None
+        self.walkable = False
+        self.debug = ' '
 
     def draw(self, x, y, screen):
         """Draw the tile on the given screen.
