@@ -17,8 +17,10 @@ Problems I hope to gain insights into:
 - always more cleanup!
 - proper action handling / context menus
 - fix odd circular dependency between world and pathfinder
+- rewrite tile class
 - decouple update logic from frame rate
 - shops target coordinates (x,y)
 - more peep decision making
+- more testing
 - add fun at somepoint?
 - so much more...
