@@ -15,9 +15,8 @@ Problems I hope to gain insights into:
 
 # TODO
 - always more cleanup!
-- proper action handling / context
-- proper entrypoint and python packaging
-- create testing framework
+- proper action handling / context menus
+- fix odd circular dependency between world and pathfinder
 - decouple update logic from frame rate
 - shops target coordinates (x,y)
 - more peep decision making
