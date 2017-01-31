@@ -24,7 +24,6 @@ class Pathfinding(object):
         current_node.Vector2d = start
         current_node.g = 0
         current_node.h = self.heuristic_distance_to_goal(start, end)
-        current_node.f = current_node.g + current_node.h
         # set parent = starting because it doesn't matter
         current_node.parent = current_node.Vector2d
 
@@ -105,7 +104,6 @@ class Pathfinding(object):
                 n.parent = node.Vector2d
                 n.g = new_g
                 n.h = self.heuristic_distance_to_goal(n.Vector2d, end)
-                n.f = n.g + n.h
 
                 open_set.append(n)
 
@@ -136,11 +134,15 @@ class Node:
     __slots__ = ('f', 'g', 'h', 'Vector2d', 'parent')
 
     def __init__(self):
-        self.f = 0
-        self.g = 0
-        self.h = 0
+        self.g = 0  # cost of the path from the start node to here
+        self.h = 0  # heuristic estimate from here to goal node
         self.Vector2d = None
         self.parent = None
+
+    @property
+    def f(self):
+        """Return estimated cost still remaining to goal."""
+        return self.g + self.h
 
     def __str__(self):
         return "< node: " + str(self.Vector2d) + \
