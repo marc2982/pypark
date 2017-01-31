@@ -27,7 +27,7 @@ class TestPathfinding(TestCase):
         begin = Vector2d(2, 2)
         end = Vector2d(2, 2)
 
-        self.world[2][2].make_path()
+        self.world.make_path(Vector2d(2, 2))
         path = self.pathfinder.compute(begin, end)
 
         self.assertEqual([
@@ -47,8 +47,8 @@ class TestPathfinding(TestCase):
         begin = Vector2d(2, 2)
         end = Vector2d(1, 2)
 
-        self.world[1][2].make_path()
-        self.world[2][2].make_path()
+        self.world.make_path(Vector2d(1, 2))
+        self.world.make_path(Vector2d(2, 2))
 
         path = self.pathfinder.compute(begin, end)
 
@@ -70,10 +70,10 @@ class TestPathfinding(TestCase):
         begin = Vector2d(2, 2)
         end = Vector2d(3, 4)
 
-        self.world[2][2].make_path()
-        self.world[2][3].make_path()
-        self.world[2][4].make_path()
-        self.world[3][4].make_path()
+        self.world.make_path(Vector2d(2, 2))
+        self.world.make_path(Vector2d(2, 3))
+        self.world.make_path(Vector2d(2, 4))
+        self.world.make_path(Vector2d(3, 4))
 
         path = self.pathfinder.compute(begin, end)
 
@@ -120,11 +120,11 @@ class TestPathfinding(TestCase):
         begin = Vector2d(2, 1)
         end = Vector2d(2, 3)
 
-        self.world[0][2].make_shop()
-        self.world[1][2].make_shop()
-        self.world[2][2].make_shop()
-        self.world[3][2].make_shop()
-        self.world[4][2].make_shop()
+        self.world.make_path(Vector2d(0, 2))
+        self.world.make_path(Vector2d(1, 2))
+        self.world.make_path(Vector2d(2, 2))
+        self.world.make_path(Vector2d(3, 2))
+        self.world.make_path(Vector2d(4, 2))
 
         path = self.pathfinder.compute(begin, end)
 
@@ -143,18 +143,18 @@ class TestPathfinding(TestCase):
         end = Vector2d(2, 3)
 
         # begin and end
-        self.world[1][1].make_path()
-        self.world[2][3].make_path()
+        self.world.make_path(Vector2d(1, 1))
+        self.world.make_path(Vector2d(2, 3))
 
         # short path
-        self.world[1][2].make_path()
-        self.world[1][3].make_path()
+        self.world.make_path(Vector2d(1, 2))
+        self.world.make_path(Vector2d(1, 3))
 
         # long path
-        self.world[2][1].make_path()
-        self.world[3][1].make_path()
-        self.world[3][2].make_path()
-        self.world[3][3].make_path()
+        self.world.make_path(Vector2d(2, 1))
+        self.world.make_path(Vector2d(3, 1))
+        self.world.make_path(Vector2d(3, 2))
+        self.world.make_path(Vector2d(3, 3))
 
         path = self.pathfinder.compute(begin, end)
 
@@ -180,15 +180,15 @@ class TestPathfinding(TestCase):
         end = Vector2d(1, 3)
 
         # begin and end
-        self.world[1][1].make_path()
-        self.world[2][3].make_path()
+        self.world.make_path(Vector2d(1, 1))
+        self.world.make_path(Vector2d(2, 3))
 
         # long path
-        self.world[2][1].make_path()
-        self.world[3][1].make_path()
-        self.world[3][2].make_path()
-        self.world[3][3].make_path()
-        self.world[2][3].make_path()
+        self.world.make_path(Vector2d(2, 1))
+        self.world.make_path(Vector2d(3, 1))
+        self.world.make_path(Vector2d(3, 2))
+        self.world.make_path(Vector2d(3, 3))
+        self.world.make_path(Vector2d(2, 3))
 
         path = self.pathfinder.compute(begin, end)
 

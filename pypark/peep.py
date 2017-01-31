@@ -1,6 +1,6 @@
 import random
 
-from constants import BLUE, TILE_SIZE, RED
+from constants import BLUE, TILE_SIZE, RED, PATH_COLOUR
 from vector import Vector2d
 
 import pygame
@@ -80,7 +80,8 @@ class Peep(object):
 
             # debug draw
             for tile in world.iter_tiles():
-                tile.set_colour()
+                if tile.is_path:
+                    tile.colour = PATH_COLOUR
             for node in self.path:
                 world[node.x][node.y].colour = RED
 

@@ -1,7 +1,7 @@
 from constants import TILE_SIZE
 from directory import Directory
 from pathfinding import Pathfinding
-from tile import Tile
+from tile import GrassTile, PathTile, ShopTile
 
 import pygame
 
@@ -20,7 +20,8 @@ class World(object):
         # convert this to a 1d array
         # http://www.reddit.com/r/gamedev/comments/jgv2m/performance_of_arrays/
         self.tiles = [
-            [Tile() for x in range(self.width)] for y in range(self.height)]
+            [GrassTile() for x in range(self.width)]
+            for y in range(self.height)]
         self.pathfinder = pathfinder or Pathfinding(self)
         self.directory = directory or Directory()
 
@@ -33,6 +34,15 @@ class World(object):
             return self[p.x][p.y]
         except IndexError:
             return None
+
+    def make_grass(self, p):
+        self[p.x][p.y] = GrassTile()
+
+    def make_path(self, p):
+        self[p.x][p.y] = PathTile()
+
+    def make_shop(self, p):
+        self[p.x][p.y] = ShopTile()
 
     def iter_tiles(self):
         for tile_y in range(self.height):

@@ -78,19 +78,24 @@ class Game(object):
         mouse_pos = pygame.mouse.get_pos()
 
         if left:
-            tile = self.camera.get_world_tile(*pygame.mouse.get_pos())
-            tile.clicked()
+            tile = self.camera.get_world_tile(*mouse_pos)
+            clicked = self.camera.get_world_tile_indexes(*mouse_pos)
+            if tile.is_grass:
+                self.world.make_path(clicked)
+            else:
+                self.world.make_grass(clicked)
             # debug below
             self.x, self.y = \
                 self.camera.get_world_tile_indexes(*pygame.mouse.get_pos())
         elif middle:
             tile = self.camera.get_world_tile(*mouse_pos)
-            is_shop = tile.toggle_shop()
             shop_location = self.camera.get_world_tile_indexes(*mouse_pos)
-            if is_shop:
-                self.world.directory.add_shop(shop_location)
-            else:
+            if tile.is_shop:
+                self.world.make_grass(shop_location)
                 self.world.directory.remove_shop(shop_location)
+            else:
+                self.world.directory.add_shop(shop_location)
+                self.world.make_shop(shop_location)
         elif right:
             pass  # do nothing for now
 
@@ -121,14 +126,14 @@ class Game(object):
         pygame.display.flip()
 
     def make_test_objects(self):
-        self.world.get_tile(self.start_point).make_path()
-        self.world.get_tile(Vector2d(12, 12)).make_path()
-        self.world.get_tile(Vector2d(11, 12)).make_path()
-        self.world.get_tile(Vector2d(10, 12)).make_path()
-        self.world.get_tile(Vector2d(10, 11)).make_path()
-        self.world.get_tile(Vector2d(10, 10)).make_path()
-        self.world.get_tile(Vector2d(11, 10)).make_path()
-        self.world.get_tile(self.end_point).make_path()
+        self.world.make_path(self.start_point)
+        self.world.make_path(Vector2d(12, 12))
+        self.world.make_path(Vector2d(11, 12))
+        self.world.make_path(Vector2d(10, 12))
+        self.world.make_path(Vector2d(10, 11))
+        self.world.make_path(Vector2d(10, 10))
+        self.world.make_path(Vector2d(11, 10))
+        self.world.make_path(self.end_point)
 
         #self.world.get_tile(self.start_point).colour = WHITE
         #self.world.get_tile(self.end_point).colour = BLACK
