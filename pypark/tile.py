@@ -11,7 +11,7 @@ class Tile(object):
         self.is_path = False
         self.is_shop = False
         self.colour = None
-        self.walkable = False
+        self.is_walkable = False
         self.debug = ' '
 
     def draw(self, x, y, screen):
@@ -31,7 +31,7 @@ class GrassTile(Tile):
         super(GrassTile, self).__init__()
         self.is_grass = True
         self.colour = GRASS_COLOUR
-        self.walkable = True
+        self.is_walkable = True
         self.debug = '-'
 
 
@@ -41,7 +41,7 @@ class PathTile(Tile):
         super(PathTile, self).__init__()
         self.is_path = True
         self.colour = PATH_COLOUR
-        self.walkable = True
+        self.is_walkable = True
         self.debug = 'p'
 
 
@@ -51,5 +51,5 @@ class ShopTile(Tile):
         super(ShopTile, self).__init__()
         self.is_shop = True
         self.colour = SHOP_COLOUR
-        self.walkable = False
+        self.is_walkable = False
         self.debug = 's'
