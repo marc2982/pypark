@@ -85,7 +85,6 @@ class TestPathfinding(TestCase):
             ], path
         )
 
-    @skip('TODO: currently broken')
     def test_no_concrete_path_to_end(self):
         """No concrete path to end point. Peep should take the grass.
 
@@ -166,7 +165,6 @@ class TestPathfinding(TestCase):
             ], path
         )
 
-    @skip('TODO: currently broken')
     def test_take_shortest_path_on_grass(self):
         """Test that the peep takes the grass.
 
