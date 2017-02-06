@@ -13,12 +13,18 @@ Problems I hope to gain insights into:
 - understanding proper game loops
 - discovering problems I haven't thought about
 
+Couldn't this be done in Unity super quickly?
+
+    Probably, but I'm enjoying learning the details of how an engine
+    works (obviously Unity is orders of magnitude more complex).
+
 # TODO
 - always more cleanup!
 - proper action handling / context menus
 - fix odd circular dependency between world and pathfinder
 - write a few more tests for the pathfinding
 - decouple update logic from frame rate
+- maybe switch to "isometric" view?
 - shops target coordinates (x,y)
 - more peep decision making
 - more testing
